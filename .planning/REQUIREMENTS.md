@@ -104,13 +104,13 @@ Which phases cover which requirements. Updated during roadmap creation.
 | SESS-03 | Phase 2 | Pending |
 | SESS-04 | Phase 2 | Pending |
 | SESS-05 | Phase 1 | Pending |
-| WEBH-01 | Phase 3 | Pending |
-| WEBH-02 | Phase 3 | Pending |
-| WEBH-03 | Phase 3 | Pending |
-| WEBH-04 | Phase 3 | Pending |
-| WEBH-05 | Phase 3 | Pending |
-| WEBH-06 | Phase 3 | Pending |
-| WEBH-07 | Phase 3 | Pending |
+| WEBH-01 | Phase 2 | Pending |
+| WEBH-02 | Phase 2 | Pending |
+| WEBH-03 | Phase 2 | Pending |
+| WEBH-04 | Phase 2 | Pending |
+| WEBH-05 | Phase 2 | Pending |
+| WEBH-06 | Phase 2 | Pending |
+| WEBH-07 | Phase 2 | Pending |
 | EVNT-01 | Phase 4 | Pending |
 | EVNT-02 | Phase 4 | Pending |
 | EVNT-03 | Phase 4 | Pending |
@@ -118,9 +118,9 @@ Which phases cover which requirements. Updated during roadmap creation.
 | EVNT-05 | Phase 4 | Pending |
 | EVNT-06 | Phase 4 | Pending |
 | EVNT-07 | Phase 4 | Pending |
-| CALL-01 | Phase 5 | Pending |
-| CALL-02 | Phase 5 | Pending |
-| CALL-03 | Phase 5 | Pending |
+| CALL-01 | Phase 3 | Pending |
+| CALL-02 | Phase 3 | Pending |
+| CALL-03 | Phase 3 | Pending |
 | SECU-01 | Phase 1 | Pending |
 | SECU-02 | Phase 1 | Pending |
 | SECU-03 | Phase 1 | Pending |
@@ -137,8 +137,8 @@ Which phases cover which requirements. Updated during roadmap creation.
 **Coverage:**
 - v1 requirements: 30 total
 - Mapped to phases: 30
-- Unmapped: 0 ✓
+- Unmapped: 0
 
 ---
 *Requirements defined: 2025-02-24*
-*Last updated: 2025-02-24 after initial definition*
+*Last updated: 2025-02-24 after roadmap creation*
