@@ -107,8 +107,8 @@ Plans:
 **Plans**: 2 plans
 
 Plans:
-- [ ] 04-01: Event list component with filtering and search
-- [ ] 04-02: Dashboard page with real-time polling and event detail expansion
+- [ ] 04-01-PLAN.md — Dashboard dependencies (ahooks, react-json-view-lite) with EventFilter and EventSearch components
+- [ ] 04-02-PLAN.md — EventCard with expand/collapse, EventList container, and Dashboard page with real-time polling
 
 ---
 
