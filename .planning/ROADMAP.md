@@ -84,8 +84,8 @@ Plans:
 **Plans**: 2 plans
 
 Plans:
-- [ ] 03-01: shadcn/ui setup and session creation form component
-- [ ] 03-02: Landing page, success page, and failed page
+- [ ] 03-01-PLAN.md — shadcn/ui setup with utility function and base components (Button, Card, Input, Label)
+- [ ] 03-02-PLAN.md — Landing page with CTA, success callback page, and failed callback page
 
 ---
 
