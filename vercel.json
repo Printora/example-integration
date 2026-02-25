@@ -8,8 +8,5 @@
     "env": {
       "NEXT_PRIVATE_TARGET": "current"
     }
-  },
-  "settings": {
-    "nodeVersion": "20.x"
   }
 }

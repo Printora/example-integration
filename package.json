@@ -2,11 +2,15 @@
   "name": "example-integration",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": ">=20.9.0"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "deploy:vercel": "vercel --prod"
   },
   "dependencies": {
     "@t3-oss/env-nextjs": "^0.13.10",
