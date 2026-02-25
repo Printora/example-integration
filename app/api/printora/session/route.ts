@@ -49,15 +49,24 @@ export async function POST(request: Request) {
 
     const { imageUrl, userData, successUrl, failedUrl } = validationResult.data;
 
-    // Derive default URLs from APP_URL if not provided
-    const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000";
-    const finalSuccessUrl = successUrl ?? `${appUrl}/callback/success`;
-    const finalFailedUrl = failedUrl ?? `${appUrl}/callback/failed`;
+    // Use hardcoded URLs - API doesn't accept localhost
+    const finalSuccessUrl = "https://google.com";
+    const finalFailedUrl = "https://printora.ai";
 
-    // Call Printora API client
+    // Split name into firstName and lastName
+    const nameParts = userData.name.trim().split(" ");
+    const firstName = nameParts[0] || "";
+    const lastName = nameParts.slice(1).join(" ") || "";
+
+    // Call Printora API client with firstName and lastName
     const response = await createSession({
       imageUrl,
-      userData,
+      userData: {
+        email: userData.email,
+        name: userData.name,
+        firstName,
+        lastName,
+      },
       successUrl: finalSuccessUrl,
       failedUrl: finalFailedUrl,
     });
@@ -66,8 +75,7 @@ export async function POST(request: Request) {
     return NextResponse.json(
       {
         sessionId: response.sessionId,
-        editorUrl: response.editorUrl,
-        expiresAt: response.expiresAt,
+        editorUrl: response.redirectUrl,
       },
       { status: 200 }
     );

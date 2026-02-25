@@ -16,6 +16,8 @@
 export interface PrintoraUserData {
   email: string;
   name: string;
+  firstName: string;
+  lastName: string;
 }
 
 /**
@@ -39,9 +41,11 @@ export interface PrintoraSessionResponse {
   /** Unique identifier for the created session */
   sessionId: string;
   /** URL to redirect user to for design editor */
-  editorUrl: string;
-  /** ISO timestamp when session expires */
-  expiresAt: string;
+  redirectUrl: string;
+  /** The original image URL */
+  imageUrl: string;
+  /** ISO timestamp when session was created */
+  createdAt: string;
 }
 
 // ============ Webhook Event Types ============

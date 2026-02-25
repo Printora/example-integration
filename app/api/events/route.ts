@@ -13,6 +13,7 @@ import {
  * Query parameters:
  * - type: Filter by event type (e.g., "order.created", "order.paid")
  * - q: Search by order ID or customer email
+ * - limit: Limit number of results (default: all)
  *
  * Returns empty array [] when no events stored.
  * No authentication required (public demo endpoint).
@@ -24,6 +25,9 @@ export async function GET(request: Request) {
   const typeFilter = searchParams.get("type");
   // Check for search query
   const searchQuery = searchParams.get("q");
+  // Check for limit
+  const limitParam = searchParams.get("limit");
+  const limit = limitParam ? parseInt(limitParam, 10) : undefined;
 
   let events;
 
@@ -36,6 +40,11 @@ export async function GET(request: Request) {
   } else {
     // Return all events
     events = getEvents();
+  }
+
+  // Apply limit if specified
+  if (limit && limit > 0) {
+    events = events.slice(0, limit);
   }
 
   // Return copy of events array (prevents external mutation)

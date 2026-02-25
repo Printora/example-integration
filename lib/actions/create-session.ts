@@ -25,8 +25,8 @@ export interface FormState {
  */
 const createSessionFormSchema = z.object({
   imageUrl: z.string().url("Invalid URL format"),
-  name: z.string().min(1, "Name is required"),
-  email: z.string().email("Invalid email address"),
+  name: z.string().optional(),
+  email: z.string().email("Invalid email address").optional(),
 });
 
 /**
@@ -62,14 +62,15 @@ export async function createSessionAction(
 
   const { imageUrl, name, email } = validationResult.data;
 
-  // Derive callback URLs from app URL
-  const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000";
-  const successUrl = `${appUrl}/callback/success`;
-  const failedUrl = `${appUrl}/callback/failed`;
+  // Hardcoded URLs - API doesn't accept localhost
+  const successUrl = "https://google.com";
+  const failedUrl = "https://printora.ai";
 
   try {
     // Call the API route (server-side fetch)
-    const apiUrl = `${process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000"}/api/printora/session`;
+    const baseUrl = process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000";
+    const apiUrl = new URL("/api/printora/session", baseUrl).href;
+
     const response = await fetch(apiUrl, {
       method: "POST",
       headers: {

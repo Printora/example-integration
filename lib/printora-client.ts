@@ -12,7 +12,7 @@ import type {
 } from "@/types/printora";
 
 // API endpoint path for session creation
-const SESSION_PATH = "/partner/sessions";
+const SESSION_PATH = "/api/v1/partner-session";
 
 // Environment variable override for session path (optional)
 const SESSION_PATH_OVERRIDE = process.env.PRINTORA_SESSION_PATH;
@@ -54,11 +54,18 @@ export async function createSession(
   const sessionPath = SESSION_PATH_OVERRIDE ?? SESSION_PATH;
   const url = `${env.PRINTORA_API_URL}${sessionPath}`;
 
+  // Generate idempotency key for this request
+  const idempotencyKey = crypto.randomUUID();
+
+  console.log(`[Printora API] POST ${url}`);
+  console.log(`[Printora API] Request body:`, JSON.stringify(request, null, 2));
+
   const response = await fetch(url, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
       "Authorization": `Bearer ${env.PRINTORA_API_KEY}`,
+      "Idempotency-Key": idempotencyKey,
     },
     body: JSON.stringify(request),
   });
@@ -71,6 +78,8 @@ export async function createSession(
     } catch {
       // If parsing fails, use default error data
     }
+
+    console.error(`[Printora API] Error ${response.status}:`, JSON.stringify(errorData, null, 2));
 
     const errorMessage = errorData.message ?? `HTTP ${response.status}`;
     const errorCode = errorData.code ?? "UNKNOWN";
@@ -87,5 +96,13 @@ export async function createSession(
     throw new PrintoraApiError(response.status, errorCode, errorMessage);
   }
 
-  return response.json() as Promise<PrintoraSessionResponse>;
+  const data = await response.json();
+  console.log(`[Printora API] Response:`, JSON.stringify(data, null, 2));
+
+  // Handle nested response structure: { success: true, data: { sessionId, redirectUrl, ... } }
+  if (data.success && data.data) {
+    return data.data as PrintoraSessionResponse;
+  }
+
+  return data as PrintoraSessionResponse;
 }
