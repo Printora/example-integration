@@ -19,6 +19,7 @@ export function verifyWebhookSignature(
 ): boolean {
   // Reject if signature header is missing
   if (!signature) {
+    console.log("[webhook] Signature header missing");
     return false;
   }
 
@@ -29,6 +30,14 @@ export function verifyWebhookSignature(
   const expectedSignature = `sha256=${createHmac("sha256", secret)
     .update(rawBody, "utf8")
     .digest("hex")}`;
+
+  // Debug logging (remove in production)
+  console.log("[webhook] Signature verification:", {
+    received: signature,
+    expected: expectedSignature,
+    match: signature === expectedSignature,
+    bodyLength: rawBody.length,
+  });
 
   // Use timing-safe comparison to prevent timing attacks
   // Buffer conversion is required for timingSafeEqual

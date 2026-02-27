@@ -23,6 +23,13 @@ export async function POST(request: Request) {
   // Extract signature header
   const signature = request.headers.get("x-printora-signature");
 
+  // Log all headers for debugging
+  console.log("[webhook] Received headers:", {
+    signature,
+    contentType: request.headers.get("content-type"),
+    allHeaders: Object.fromEntries(request.headers.entries()),
+  });
+
   // CRITICAL: Read raw body FIRST before JSON parsing
   // Signature verification requires the exact raw payload
   const rawBody = await request.text();
