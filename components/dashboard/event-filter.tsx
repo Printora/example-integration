@@ -17,6 +17,17 @@ const eventOptions = [
   { value: "order.delivered", label: "Order Delivered" },
 ];
 
+/**
+ * Formats an event type for human-readable display.
+ * Converts "order.created" → "Order Created"
+ */
+function formatEventType(type: string): string {
+  return type
+    .split(".")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
+}
+
 export function EventFilter({ value, onChange }: EventFilterProps) {
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     onChange(e.target.value);

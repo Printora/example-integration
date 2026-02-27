@@ -29,7 +29,7 @@ export function EventCard({ event }: EventCardProps) {
         <div className="flex items-center gap-3">
           {/* Type badge with color coding */}
           <Badge variant={getTypeBadgeVariant(event.type)}>
-            {event.type}
+            {formatEventType(event.type)}
           </Badge>
           {/* Timestamp */}
           <span className="text-sm text-muted-foreground">
@@ -85,6 +85,17 @@ function formatEventDate(date: Date): string {
     hour: "2-digit",
     minute: "2-digit",
   }).format(date);
+}
+
+/**
+ * Formats an event type for human-readable display.
+ * Converts "order.created" → "Order Created"
+ */
+function formatEventType(type: string): string {
+  return type
+    .split(".")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
 }
 
 /**

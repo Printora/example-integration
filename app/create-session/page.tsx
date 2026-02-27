@@ -283,7 +283,7 @@ export default function SessionCreatePage() {
                 >
                   <div className="flex items-center justify-between mb-2">
                     <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
-                      {event.type}
+                      {event.type.split(".").map((word) => word.charAt(0).toUpperCase() + word.slice(1)).join(" ")}
                     </span>
                     <span className="text-xs text-gray-500">
                       {new Date(event.receivedAt).toLocaleTimeString()}
