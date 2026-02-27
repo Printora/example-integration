@@ -28,8 +28,10 @@ export function addEvent(
   event: PrintoraWebhookEvent,
   verified: boolean
 ): boolean {
-  // Deduplication: check if sessionId already exists
-  const existingIndex = events.findIndex((e) => e.sessionId === event.sessionId);
+  // Deduplication: check if sessionId + event type combination already exists
+  const existingIndex = events.findIndex(
+    (e) => e.sessionId === event.sessionId && e.type === event.event
+  );
   if (existingIndex !== -1) {
     // Event already processed — return false without adding
     return false;

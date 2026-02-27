@@ -46,9 +46,22 @@ export function EventCard({ event }: EventCardProps) {
 
       {/* Summary info */}
       <CardContent className="text-sm pt-0">
-        <p>Order: {event.payload.data.orderId}</p>
-        {event.payload.data.customerEmail && (
-          <p>Customer: {event.payload.data.customerEmail}</p>
+        <p className="text-muted-foreground text-xs">Session: {event.sessionId}</p>
+        <p className="font-medium">Order: {event.payload.data.orderId}</p>
+        <p>Status: {event.payload.data.status}</p>
+        {event.payload.data.paymentStatus && (
+          <p>Payment: {event.payload.data.paymentStatus}</p>
+        )}
+        {event.payload.data.totalAmount && (
+          <p>Amount: {event.payload.data.currency} {event.payload.data.totalAmount}</p>
+        )}
+        {event.payload.data.customer?.email && (
+          <p>Customer: {event.payload.data.customer.email}</p>
+        )}
+        {event.payload.data.items && event.payload.data.items.length > 0 && (
+          <p className="text-xs text-muted-foreground">
+            {event.payload.data.items.length} item(s)
+          </p>
         )}
       </CardContent>
 

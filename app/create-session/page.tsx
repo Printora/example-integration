@@ -290,7 +290,7 @@ export default function SessionCreatePage() {
                     </span>
                   </div>
                   <p className="text-xs text-gray-600 font-mono">
-                    Session ID: {event.sessionId}
+                    Session: {event.sessionId}
                   </p>
                   {event.payload.data?.orderId && (
                     <p className="text-xs text-gray-600 mt-1">

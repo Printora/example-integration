@@ -65,14 +65,53 @@ export type PrintoraWebhookEventType =
 export interface PrintoraOrderData {
   /** Unique order identifier */
   orderId: string;
-  /** Session ID if order was created from a partner session */
-  sessionId?: string;
   /** Current order status */
   status: string;
-  /** Customer email from original session */
-  customerEmail?: string;
-  /** Customer name from original session */
-  customerName?: string;
+  /** Currency code (e.g., "USD") */
+  currency: string;
+  /** Total order amount */
+  totalAmount: number;
+  /** Payment status (e.g., "pending", "paid") */
+  paymentStatus: string;
+  /** Payment method (e.g., "stripe") */
+  paymentMethod?: string;
+  /** When order was paid */
+  paidAt?: string;
+  /** Payment URL for pending payments */
+  paymentUrl?: string;
+  /** Partner image URL */
+  partnerImageUrl?: string;
+  /** Order items */
+  items?: PrintoraOrderItem[];
+  /** Customer information */
+  customer?: {
+    email?: string | null;
+    phone?: string | null;
+    firstName?: string;
+    lastName?: string;
+  };
+  /** Shipping address */
+  shippingAddress?: {
+    street?: string;
+    apartment?: string | null;
+    city?: string;
+    state?: string;
+    zipCode?: string;
+    country?: string;
+    firstName?: string;
+    lastName?: string;
+  };
+}
+
+/**
+ * Order item in the order data
+ */
+export interface PrintoraOrderItem {
+  productName: string;
+  price: number;
+  quantity: number;
+  imageUrl?: string | null;
+  variant?: string | null;
 }
 
 /**

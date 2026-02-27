@@ -61,7 +61,7 @@ export async function POST(request: Request) {
     );
   }
 
-  // Store event (returns false if duplicate sessionId exists)
+  // Store event (returns false if duplicate sessionId + event type exists)
   const added = addEvent(event, true);
 
   // Log successful storage
