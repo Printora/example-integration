@@ -79,10 +79,10 @@ export interface PrintoraOrderData {
  * Webhook event payload from Printora
  */
 export interface PrintoraWebhookEvent {
-  /** Unique event ID for idempotency */
-  id: string;
+  /** Session ID for idempotency */
+  sessionId: string;
   /** Event type determining the payload structure */
-  type: PrintoraWebhookEventType;
+  event: PrintoraWebhookEventType;
   /** ISO timestamp of when the event occurred */
   timestamp: string;
   /** Event-specific data */
@@ -96,8 +96,8 @@ export interface PrintoraWebhookEvent {
  * Adds metadata to the raw webhook event
  */
 export interface WebhookStoredEvent {
-  /** Event ID from Printora (same as PrintoraWebhookEvent.id) */
-  id: string;
+  /** Session ID from Printora (same as PrintoraWebhookEvent.sessionId) */
+  sessionId: string;
   /** When we received this event */
   receivedAt: Date;
   /** Event type */

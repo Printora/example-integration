@@ -46,7 +46,7 @@ export function EventList({
   return (
     <div className="space-y-4">
       {filteredEvents.map((event) => (
-        <EventCard key={event.id} event={event} />
+        <EventCard key={event.sessionId} event={event} />
       ))}
     </div>
   );

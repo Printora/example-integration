@@ -47,19 +47,19 @@ export async function POST(request: Request) {
   }
 
   // Validate required fields
-  if (!event.id || !event.type || !event.timestamp || !event.data) {
+  if (!event.sessionId || !event.event || !event.timestamp || !event.data) {
     return NextResponse.json(
       { error: "Invalid webhook payload: missing required fields" },
       { status: 400 }
     );
   }
 
-  // Store event (returns false if duplicate ID exists)
+  // Store event (returns false if duplicate sessionId exists)
   const added = addEvent(event, true);
 
   // Log successful storage
   console.log(
-    `[webhook] Received event ${event.id} (${event.type}) ${added ? "stored" : "(duplicate)"}`
+    `[webhook] Received event ${event.sessionId} (${event.event}) ${added ? "stored" : "(duplicate)"}`
   );
 
   // Always return 200 OK - idempotent endpoint

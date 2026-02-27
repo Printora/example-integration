@@ -28,8 +28,8 @@ export function addEvent(
   event: PrintoraWebhookEvent,
   verified: boolean
 ): boolean {
-  // Deduplication: check if event ID already exists
-  const existingIndex = events.findIndex((e) => e.id === event.id);
+  // Deduplication: check if sessionId already exists
+  const existingIndex = events.findIndex((e) => e.sessionId === event.sessionId);
   if (existingIndex !== -1) {
     // Event already processed — return false without adding
     return false;
@@ -37,9 +37,9 @@ export function addEvent(
 
   // Create stored event with metadata
   const storedEvent: WebhookStoredEvent = {
-    id: event.id,
+    sessionId: event.sessionId,
     receivedAt: new Date(),
-    type: event.type,
+    type: event.event,
     payload: event,
     verified,
   };
@@ -65,13 +65,13 @@ export function getEvents(): WebhookStoredEvent[] {
 }
 
 /**
- * Retrieves a single event by ID.
+ * Retrieves a single event by sessionId.
  *
- * @param id - Event ID to look up
+ * @param sessionId - Session ID to look up
  * @returns Event if found, undefined otherwise
  */
-export function getEventById(id: string): WebhookStoredEvent | undefined {
-  return events.find((e) => e.id === id);
+export function getEventById(sessionId: string): WebhookStoredEvent | undefined {
+  return events.find((e) => e.sessionId === sessionId);
 }
 
 /**

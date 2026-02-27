@@ -278,7 +278,7 @@ export default function SessionCreatePage() {
             <div className="space-y-3">
               {webhookEvents.map((event) => (
                 <div
-                  key={event.id}
+                  key={event.sessionId}
                   className="border border-gray-200 rounded-lg p-4 hover:bg-gray-50 transition-colors"
                 >
                   <div className="flex items-center justify-between mb-2">
@@ -290,7 +290,7 @@ export default function SessionCreatePage() {
                     </span>
                   </div>
                   <p className="text-xs text-gray-600 font-mono">
-                    Event ID: {event.id}
+                    Session ID: {event.sessionId}
                   </p>
                   {event.payload.data?.orderId && (
                     <p className="text-xs text-gray-600 mt-1">
