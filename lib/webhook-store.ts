@@ -98,7 +98,7 @@ export function searchEvents(query: string): WebhookStoredEvent[] {
   const lowerQuery = query.toLowerCase();
   return events.filter((e) => {
     const orderId = e.payload.data.orderId?.toLowerCase() ?? "";
-    const email = e.payload.data.customerEmail?.toLowerCase() ?? "";
+    const email = e.payload.data.customer?.email?.toLowerCase() ?? "";
     return orderId.includes(lowerQuery) || email.includes(lowerQuery);
   });
 }
