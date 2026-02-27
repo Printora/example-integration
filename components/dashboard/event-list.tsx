@@ -26,7 +26,7 @@ export function EventList({
       if (searchQuery) {
         const q = searchQuery.toLowerCase();
         const orderId = event.payload.data.orderId?.toLowerCase() ?? "";
-        const email = event.payload.data.customerEmail?.toLowerCase() ?? "";
+        const email = event.payload.data.customer?.email?.toLowerCase() ?? "";
         return orderId.includes(q) || email.includes(q);
       }
       return true;
