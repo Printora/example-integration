@@ -358,12 +358,12 @@ This Next.js app can be deployed to any platform that supports Next.js:
 ## Documentation
 
 - [Webhook Integration Details](docs/WEBHOOK-INTEGRATION.md)
-- [Printora API Documentation](https://docs.printora.ai) (if available)
+- [Printora Integration Documentation](https://www.printora.ai/en/integrations)
 
 ## Support
 
 For issues or questions:
-- Check the [Printora documentation](https://docs.printora.ai)
+- Check the [Printora Integration Documentation](https://www.printora.ai/en/integrations)
 - Contact Printora support
 - Open an issue in this repository
 
