@@ -1,9 +1,97 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Printora Partner Integration Example
+
+A complete example implementation demonstrating how to integrate with the Printora Partner API. This project showcases the full integration flow including session creation, webhook handling, and order management.
+
+## What This Example Demonstrates
+
+This example integration shows how to:
+
+1. **Create Partner Sessions** - Generate sessions with customer images and data, receiving redirect URLs for Printora's design editor
+2. **Handle Webhook Events** - Receive and verify webhook events for order lifecycle updates (created, paid, shipped, delivered)
+3. **Auto-Login Flow** - Implement seamless user authentication using JWT tokens
+4. **Order Dashboard** - View and manage orders created through partner sessions
+
+### Integration Flow
+
+```
+┌─────────────────┐    ┌──────────────────┐    ┌─────────────────┐
+│   Your App      │    │  Printora API    │    │  Printora App   │
+│                 │    │                  │    │                 │
+│ 1. Create       │───▶│ 2. Generate      │───▶│ 3. Design &     │
+│    Session      │    │    Session + JWT │    │    Customize    │
+│                 │    │                  │    │                 │
+│ 6. Receive      │◀───│ 5. Send          │◀───│ 4. Complete     │
+│    Webhook      │    │    Webhook       │    │    Checkout     │
+└─────────────────┘    └──────────────────┘    └─────────────────┘
+```
+
+## Requirements
+
+### Prerequisites
+
+Before running this example, you need:
+
+- **Node.js 20.9.0 or higher**
+- **npm, yarn, pnpm, or bun** package manager
+- **Printora Partner Credentials**:
+  - API Key (`PRINTORA_API_KEY`)
+  - Webhook Secret (`PRINTORA_WEBHOOK_SECRET`)
+
+### Getting Printora Credentials
+
+1. Contact Printora to become a partner
+2. Receive your partner API credentials:
+   - API Key (starts with `pk_test_` for test environment)
+   - Webhook Secret (starts with `whsec_`)
+
+### Environment Variables
+
+Create a `.env.local` file in the project root with the following variables:
+
+```bash
+# Required: Your Printora API credentials
+PRINTORA_API_KEY=pk_test_your_api_key_here
+PRINTORA_API_URL=https://api-staging.printora.ai
+PRINTORA_WEBHOOK_SECRET=whsec_your_webhook_secret_here
+
+# Required: Your application URL (for callbacks)
+NEXT_PUBLIC_APP_URL=http://localhost:3000
+
+# Optional: Environment
+NODE_ENV=development
+```
+
+> **Note:** See [`.env.example`](.env.example) for a template.
 
 ## Getting Started
 
-First, run the development server:
+### Installation
 
+1. Clone the repository:
+```bash
+git clone <your-repo-url>
+cd example-integration
+```
+
+2. Install dependencies:
+```bash
+npm install
+# or
+yarn install
+# or
+pnpm install
+# or
+bun install
+```
+
+3. Set up environment variables:
+```bash
+cp .env.example .env.local
+```
+
+Edit `.env.local` and add your Printora credentials.
+
+4. Run the development server:
 ```bash
 npm run dev
 # or
@@ -14,23 +102,336 @@ pnpm dev
 bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+5. Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Project Structure
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```
+example-integration/
+├── app/
+│   ├── page.tsx              # Landing page
+│   ├── create-session/       # Session creation demo
+│   ├── dashboard/            # Order management dashboard
+│   ├── callback/             # Success/failure pages
+│   └── api/
+│       └── webhooks/         # Webhook endpoint
+├── components/
+│   └── ui/                   # Reusable UI components
+├── lib/
+│   └── printora.ts           # Printora API client
+└── docs/
+    └── WEBHOOK-INTEGRATION.md # Detailed webhook documentation
+```
 
-## Learn More
+## Features
 
-To learn more about Next.js, take a look at the following resources:
+### 1. Session Creation
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Create a partner session with customer data:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```typescript
+const response = await fetch('/api/partners/sessions', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    'x-api-key': PRINTORA_API_KEY,
+  },
+  body: JSON.stringify({
+    image_url: 'https://example.com/customer-image.jpg',
+    user_data: {
+      email: 'customer@example.com',
+      name: 'Customer Name',
+    },
+  }),
+});
+```
 
-## Deploy on Vercel
+### 2. Webhook Handling
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Receive secure webhook events with signature verification:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```typescript
+// Webhook endpoint receives events:
+// - order.created
+// - order.paid
+// - order.shipped
+// - order.delivered
+```
+
+See [docs/WEBHOOK-INTEGRATION.md](docs/WEBHOOK-INTEGRATION.md) for detailed webhook documentation.
+
+### 3. Auto-Login
+
+When `user_data.email` is provided:
+- Existing users are found automatically
+- New users are created seamlessly
+- JWT tokens are generated for instant login
+- No password or OTP required
+
+## API Reference
+
+### Authentication
+
+All API requests require authentication using your Partner API Key in the Authorization header:
+
+```http
+Authorization: Bearer partner_test_api_key_example
+```
+
+**API Key Format:**
+- Test mode: `pk_test_xxxxxxxxxxxxxxxxxxxxxxxxxx`
+- Live mode: `pk_live_xxxxxxxxxxxxxxxxxxxxxxxxxx`
+
+> **Note:** Replace the `x` characters with your actual API key received from Printora.
+
+### Base URLs
+
+| Environment | Base URL |
+| --- | --- |
+| **Production** | `https://api.printora.ai` |
+| **Staging** | `https://api-staging.printora.ai` |
+
+### Partner API Endpoints
+
+#### Session Management
+
+**Create Partner Session**
+```
+POST /api/v1/partner-session
+```
+
+Creates a new partner session and returns a redirect URL for the end-user.
+
+**Request Body:**
+```json
+{
+  "image_url": "https://example.com/customer-image.jpg",
+  "user_data": {
+    "email": "customer@example.com",
+    "name": "Customer Name"
+  }
+}
+```
+
+**Response (201 Created):**
+```json
+{
+  "session_id": "cc8930e4-621a-4a94-a483-34dd9de8ee90",
+  "redirect_url": "https://printora.ai/customize?session=xxx&jwt=yyy",
+  "image_url": "https://example.com/customer-image.jpg",
+  "jwt_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+  "user_id": "user-uuid-123",
+  "created_at": "2026-02-27T10:30:00Z"
+}
+```
+
+#### Order Management
+
+**Get Partner Orders**
+```
+GET /api/v1/partners/:partnerId/orders
+```
+
+Retrieve all orders created through your partner sessions.
+
+**Query Parameters:**
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `limit` | number | Number of orders to return (default: 20) |
+| `offset` | number | Number of orders to skip (default: 0) |
+| `status` | string | Filter by order status |
+
+**Response:**
+```json
+{
+  "orders": [
+    {
+      "order_id": "ord_abc123",
+      "session_id": "sess_x1y2z3",
+      "status": "processing",
+      "total_amount": 29.99,
+      "currency": "USD",
+      "created_at": "2026-02-27T10:40:00Z"
+    }
+  ],
+  "total": 42,
+  "limit": 20,
+  "offset": 0
+}
+```
+
+#### Webhook Management
+
+**View Webhook Logs**
+```
+GET /api/v1/webhooks/logs
+```
+
+View the delivery logs of all webhooks sent to your endpoint.
+
+**Query Parameters:**
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `session_id` | string | Filter by session ID |
+| `event` | string | Filter by event type |
+| `status` | string | Filter by delivery status |
+
+**Resend Webhook**
+```
+POST /api/v1/webhooks/resend
+```
+
+Manually resend a webhook to your endpoint.
+
+**Request Body:**
+```json
+{
+  "webhook_log_id": "log_abc123"
+}
+```
+
+**Retry Failed Webhook**
+```
+POST /api/v1/webhooks/retry
+```
+
+Retry a failed webhook delivery.
+
+**Request Body:**
+```json
+{
+  "webhook_log_id": "log_xyz789"
+}
+```
+
+### Webhook Events
+
+Your webhook endpoint will receive notifications for the following events:
+
+| Event | Description |
+|-------|-------------|
+| `order.created` | When a user completes checkout |
+| `order.paid` | When payment is confirmed |
+| `order.shipped` | When the order is shipped |
+| `order.delivered` | When the order is delivered |
+| `order.cancelled` | When an order is cancelled |
+
+**Webhook Payload Example:**
+```json
+{
+  "sessionId": "cc8930e4-621a-xxxxx-xxxxx",
+  "event": "order.created",
+  "data": {
+    "order_id": "ord_abc123",
+    "session_id": "sess_x1y2z3",
+    "status": "pending",
+    "total_amount": 29.99,
+    "currency": "USD"
+  },
+  "timestamp": "2026-01-30T10:40:00Z"
+}
+```
+
+### Rate Limits
+
+| Metric | Limit |
+| --- | --- |
+| Requests per minute | 60 |
+| Requests per day | 10,000 |
+
+**Rate limit headers are included in every response:**
+```
+X-RateLimit-Limit: 60
+X-RateLimit-Remaining: 45
+X-RateLimit-Reset: 1738234567
+```
+
+### Session Lifecycle
+
+Understanding the session flow is important for integration:
+
+- **Redirect URL expiry:** 15 minutes from creation
+- **Session expiry:** 24 hours after user first accesses the redirect URL
+- **Session statuses:** `pending` → `active` → `completed` / `expired` / `cancelled`
+
+### API Scope
+
+This API is designed **exclusively for partner backend integration**.
+
+**Partners CAN:**
+- ✅ Create print sessions for end-users
+- ✅ Retrieve orders created through their sessions
+- ✅ Manage webhook deliveries and view logs
+
+**Partners CANNOT:**
+- ❌ Access cart endpoints (internal frontend use only)
+- ❌ Access checkout endpoints (internal frontend use only)
+- ❌ Access user authentication or product management endpoints
+
+## Postman Collection
+
+A complete Postman collection with all endpoints is available for testing:
+
+**[View Postman Documentation →](https://documenter.getpostman.com/view/31908428/2sBXcHhJd9)**
+
+### Getting Started with Postman
+
+1. **Import the collection** - Click "Run in Postman" on the documentation page
+2. **Set up your environment** - Select the appropriate environment (Staging/Production)
+3. **Configure your API key** - Update the `PARTNER_API_KEY` variable
+4. **Test the flow** - Start with "Create Session" to test the integration
+5. **Review responses** - Check the response examples to understand the data structure
+6. **Implement webhooks** - Set up your webhook endpoint to receive order notifications
+
+## Deployment
+
+### Deploy to Vercel
+
+The easiest way to deploy is using [Vercel](https://vercel.com):
+
+```bash
+npm run deploy:vercel
+```
+
+Or push to your Git repository and import into Vercel.
+
+**Important:** Add your environment variables in Vercel's dashboard:
+- `PRINTORA_API_KEY`
+- `PRINTORA_API_URL`
+- `PRINTORA_WEBHOOK_SECRET`
+- `NEXT_PUBLIC_APP_URL`
+
+### Other Platforms
+
+This Next.js app can be deployed to any platform that supports Next.js:
+- Vercel (recommended)
+- Netlify
+- AWS Amplify
+- Railway
+- Render
+- Self-hosted
+
+## Documentation
+
+- [Webhook Integration Details](docs/WEBHOOK-INTEGRATION.md)
+- [Printora API Documentation](https://docs.printora.ai) (if available)
+
+## Support
+
+For issues or questions:
+- Check the [Printora documentation](https://docs.printora.ai)
+- Contact Printora support
+- Open an issue in this repository
+
+## License
+
+This example code is provided as-is for integration purposes.
+
+## Tech Stack
+
+- **Framework:** [Next.js 16](https://nextjs.org/)
+- **Language:** [TypeScript](https://www.typescriptlang.org/)
+- **Styling:** [Tailwind CSS](https://tailwindcss.com/)
+- **UI Components:** [Radix UI](https://www.radix-ui.com/)
+- **Validation:** [Zod](https://zod.dev/)
+- **Environment:** [@t3-oss/env-nextjs](https://env.t3.gg/)
