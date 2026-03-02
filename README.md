@@ -8,8 +8,7 @@ This example integration shows how to:
 
 1. **Create Partner Sessions** - Generate sessions with customer images and data, receiving redirect URLs for Printora's design editor
 2. **Handle Webhook Events** - Receive and verify webhook events for order lifecycle updates (created, paid, shipped, delivered)
-3. **Auto-Login Flow** - Implement seamless user authentication using JWT tokens
-4. **Order Dashboard** - View and manage orders created through partner sessions
+3. **Order Dashboard** - View and manage orders created through partner sessions
 
 ### Integration Flow
 
@@ -18,10 +17,10 @@ This example integration shows how to:
 │   Your App      │    │  Printora API    │    │  Printora App   │
 │                 │    │                  │    │                 │
 │ 1. Create       │───▶│ 2. Generate      │───▶│ 3. Design &     │
-│    Session      │    │    Session + JWT │    │    Customize    │
+│    Session      │    │    Session       │    │    Customize    │
 │                 │    │                  │    │                 │
-│ 6. Receive      │◀───│ 5. Send          │◀───│ 4. Complete     │
-│    Webhook      │    │    Webhook       │    │    Checkout     │
+│ 5. Receive      │◀───│ 4. Send          │◀───│ Complete        │
+│    Webhook      │    │    Webhook       │    │ Checkout        │
 └─────────────────┘    └──────────────────┘    └─────────────────┘
 ```
 
@@ -160,14 +159,6 @@ Receive secure webhook events with signature verification:
 
 See [docs/WEBHOOK-INTEGRATION.md](docs/WEBHOOK-INTEGRATION.md) for detailed webhook documentation.
 
-### 3. Auto-Login
-
-When `user_data.email` is provided:
-- Existing users are found automatically
-- New users are created seamlessly
-- JWT tokens are generated for instant login
-- No password or OTP required
-
 ## API Reference
 
 ### Authentication
@@ -217,10 +208,8 @@ Creates a new partner session and returns a redirect URL for the end-user.
 ```json
 {
   "session_id": "cc8930e4-621a-4a94-a483-34dd9de8ee90",
-  "redirect_url": "https://printora.ai/customize?session=xxx&jwt=yyy",
+  "redirect_url": "https://printora.ai/customize?session=xxx",
   "image_url": "https://example.com/customer-image.jpg",
-  "jwt_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
-  "user_id": "user-uuid-123",
   "created_at": "2026-02-27T10:30:00Z"
 }
 ```
