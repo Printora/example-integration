@@ -249,50 +249,6 @@ Retrieve all orders created through your partner sessions.
 }
 ```
 
-#### Webhook Management
-
-**View Webhook Logs**
-```
-GET /api/v1/webhooks/logs
-```
-
-View the delivery logs of all webhooks sent to your endpoint.
-
-**Query Parameters:**
-| Parameter | Type | Description |
-|-----------|------|-------------|
-| `session_id` | string | Filter by session ID |
-| `event` | string | Filter by event type |
-| `status` | string | Filter by delivery status |
-
-**Resend Webhook**
-```
-POST /api/v1/webhooks/resend
-```
-
-Manually resend a webhook to your endpoint.
-
-**Request Body:**
-```json
-{
-  "webhook_log_id": "log_abc123"
-}
-```
-
-**Retry Failed Webhook**
-```
-POST /api/v1/webhooks/retry
-```
-
-Retry a failed webhook delivery.
-
-**Request Body:**
-```json
-{
-  "webhook_log_id": "log_xyz789"
-}
-```
-
 ### Webhook Events
 
 Your webhook endpoint will receive notifications for the following events:
@@ -350,7 +306,6 @@ This API is designed **exclusively for partner backend integration**.
 **Partners CAN:**
 - ✅ Create print sessions for end-users
 - ✅ Retrieve orders created through their sessions
-- ✅ Manage webhook deliveries and view logs
 
 **Partners CANNOT:**
 - ❌ Access cart endpoints (internal frontend use only)
