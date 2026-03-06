@@ -702,12 +702,11 @@ function ImageModal({
               <ArrowRight className="h-4 w-4" />
             </button>
             <div className="mt-2 flex flex-wrap items-center justify-center gap-1.5 text-xs text-zinc-500">
-              <span className="rounded bg-white/5 px-1.5 py-0.5">T-Shirt</span>
-              <span className="rounded bg-white/5 px-1.5 py-0.5">Hoodie</span>
-              <span className="rounded bg-white/5 px-1.5 py-0.5">Poster</span>
-              <span className="rounded bg-white/5 px-1.5 py-0.5">Mug</span>
-              <span className="rounded bg-white/5 px-1.5 py-0.5">Tote Bag</span>
-              <span className="rounded bg-white/5 px-1.5 py-0.5">Stickers</span>
+              <span className="rounded bg-white/5 px-1.5 py-0.5">T-Shirts</span>
+              <span className="rounded bg-white/5 px-1.5 py-0.5">Hoodies</span>
+              <span className="rounded bg-white/5 px-1.5 py-0.5">Mugs</span>
+              <span className="rounded bg-white/5 px-1.5 py-0.5">Posters</span>
+              <span className="rounded bg-white/5 px-1.5 py-0.5">Home Decor</span>
               <span className="text-zinc-600">+more</span>
             </div>
             <div className="mt-2 flex items-center justify-center gap-1.5 text-xs text-zinc-500">
