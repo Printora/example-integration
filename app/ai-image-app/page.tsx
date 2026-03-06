@@ -44,7 +44,7 @@ type PrintStep = "idle" | "form" | "loading" | "success" | "error";
 const GALLERY_IMAGES: GalleryImage[] = [
   {
     id: "1",
-    url: "https://images.unsplash.com/photo-1518562180175-34a163e1a500?w=600&h=800&fit=crop&q=80",
+    url: "https://images.unsplash.com/photo-1533134486753-c833f0ed4866?w=600&h=800&fit=crop&q=80",
     title: "Enchanted Forest Gateway",
     creator: "luna_creates",
     avatar: "L",
@@ -108,7 +108,7 @@ const GALLERY_IMAGES: GalleryImage[] = [
   },
   {
     id: "5",
-    url: "https://images.unsplash.com/photo-1474511320723-9a56873571b7?w=600&h=750&fit=crop&q=80",
+    url: "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=600&h=750&fit=crop&q=80",
     title: "Spirit of the Wild",
     creator: "nature_ai",
     avatar: "N",
