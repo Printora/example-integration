@@ -49,9 +49,12 @@ export async function POST(request: Request) {
 
     const { imageUrl, userData, successUrl, failedUrl } = validationResult.data;
 
-    // Use hardcoded URLs - API doesn't accept localhost
-    const finalSuccessUrl = "https://google.com";
-    const finalFailedUrl = "https://printora.ai";
+    // Use provided URLs when available, otherwise fall back to app URLs or hardcoded defaults
+    const appUrl = process.env.NEXT_PUBLIC_APP_URL || "";
+    const isLocalhost = appUrl.includes("localhost") || appUrl.includes("127.0.0.1");
+
+    const finalSuccessUrl = successUrl || (isLocalhost ? "https://google.com" : `${appUrl}/callback/success`);
+    const finalFailedUrl = failedUrl || (isLocalhost ? "https://printora.ai" : `${appUrl}/callback/failed`);
 
     // Split name into firstName and lastName
     const nameParts = userData.name.trim().split(" ");
