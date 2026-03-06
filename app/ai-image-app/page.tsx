@@ -392,22 +392,20 @@ function Header() {
           </div>
         </div>
 
-        {/* Auth — disabled for demo */}
-        <div className="flex items-center gap-3 opacity-40">
-          <button
-            disabled
-            className="hidden cursor-not-allowed text-sm text-zinc-600 sm:block"
-            title="Demo only — not functional"
-          >
-            Log in
-          </button>
-          <button
-            disabled
-            className="cursor-not-allowed rounded-full bg-zinc-700 px-4 py-1.5 text-sm font-medium text-zinc-400"
-            title="Demo only — not functional"
-          >
-            Sign Up
-          </button>
+        {/* Logged-in user profile */}
+        <div className="flex items-center gap-3">
+          <div className="hidden items-center gap-2 sm:flex">
+            <div className="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-emerald-400 to-cyan-500 text-xs font-bold text-white">
+              JD
+            </div>
+            <div className="text-sm">
+              <div className="font-medium text-white">John Doe</div>
+              <div className="text-xs text-zinc-500">john@example.com</div>
+            </div>
+          </div>
+          <div className="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-emerald-400 to-cyan-500 text-xs font-bold text-white sm:hidden">
+            JD
+          </div>
         </div>
       </div>
     </header>
@@ -704,11 +702,12 @@ function ImageModal({
               <ArrowRight className="h-4 w-4" />
             </button>
             <div className="mt-2 flex flex-wrap items-center justify-center gap-1.5 text-xs text-zinc-500">
-              <span className="rounded bg-white/5 px-1.5 py-0.5">Wall Art</span>
               <span className="rounded bg-white/5 px-1.5 py-0.5">T-Shirt</span>
+              <span className="rounded bg-white/5 px-1.5 py-0.5">Hoodie</span>
+              <span className="rounded bg-white/5 px-1.5 py-0.5">Poster</span>
               <span className="rounded bg-white/5 px-1.5 py-0.5">Mug</span>
-              <span className="rounded bg-white/5 px-1.5 py-0.5">Phone Case</span>
               <span className="rounded bg-white/5 px-1.5 py-0.5">Tote Bag</span>
+              <span className="rounded bg-white/5 px-1.5 py-0.5">Stickers</span>
               <span className="text-zinc-600">+more</span>
             </div>
             <div className="mt-2 flex items-center justify-center gap-1.5 text-xs text-zinc-500">
@@ -731,34 +730,30 @@ function PrintModal({
   image: GalleryImage;
   onClose: () => void;
 }) {
-  const [step, setStep] = useState<PrintStep>("form");
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
+  const [step, setStep] = useState<PrintStep>("loading");
   const [error, setError] = useState("");
 
-  const handleSubmit = useCallback(
-    async (e: React.FormEvent) => {
-      e.preventDefault();
-      setError("");
+  // Logged-in user data — auto-sent to Printora
+  const DEMO_USER = { name: "John Doe", email: "john@example.com" };
 
-      if (!name.trim() || !email.trim()) {
-        setError("Please fill in all fields");
-        return;
-      }
+  // Auto-trigger session creation on mount
+  useEffect(() => {
+    let cancelled = false;
 
-      setStep("loading");
-
+    async function createSession() {
       try {
         const res = await fetch("/api/printora/session", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             imageUrl: image.url,
-            userData: { name: name.trim(), email: email.trim() },
+            userData: DEMO_USER,
           }),
         });
 
         const data = await res.json();
+
+        if (cancelled) return;
 
         if (!res.ok) {
           throw new Error(data.error || "Failed to create session");
@@ -771,14 +766,18 @@ function PrintModal({
           window.open(data.editorUrl, "_blank");
         }
       } catch (err) {
+        if (cancelled) return;
         setStep("error");
         setError(
           err instanceof Error ? err.message : "Something went wrong"
         );
       }
-    },
-    [image.url, name, email]
-  );
+    }
+
+    createSession();
+    return () => { cancelled = true; };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [image.url]);
 
   return (
     <div
@@ -797,7 +796,7 @@ function PrintModal({
           <X className="h-4 w-4" />
         </button>
 
-        {/* Header with image preview */}
+        {/* Header with image preview + user info */}
         <div className="flex items-center gap-4 border-b border-white/5 p-5">
           <div className="h-16 w-16 overflow-hidden rounded-lg">
             <img
@@ -807,70 +806,26 @@ function PrintModal({
             />
           </div>
           <div>
-            <h3 className="font-semibold text-white">Print Your Art</h3>
+            <h3 className="font-semibold text-white">Print on Product</h3>
             <p className="text-sm text-zinc-400">
-              Print &ldquo;{image.title}&rdquo; on any product
+              &ldquo;{image.title}&rdquo;
+            </p>
+            <p className="mt-1 text-xs text-zinc-500">
+              Ordering as <span className="text-zinc-300">{DEMO_USER.name}</span> ({DEMO_USER.email})
             </p>
           </div>
         </div>
 
         {/* Content */}
         <div className="p-5">
-          {step === "form" && (
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <div>
-                <label className="mb-1.5 block text-sm font-medium text-zinc-300">
-                  Your Name
-                </label>
-                <input
-                  type="text"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  placeholder="John Doe"
-                  className="w-full rounded-lg border border-white/10 bg-white/5 px-4 py-2.5 text-sm text-white placeholder:text-zinc-500 focus:border-violet-500/50 focus:outline-none focus:ring-1 focus:ring-violet-500/25"
-                />
-              </div>
-              <div>
-                <label className="mb-1.5 block text-sm font-medium text-zinc-300">
-                  Email Address
-                </label>
-                <input
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="john@example.com"
-                  className="w-full rounded-lg border border-white/10 bg-white/5 px-4 py-2.5 text-sm text-white placeholder:text-zinc-500 focus:border-violet-500/50 focus:outline-none focus:ring-1 focus:ring-violet-500/25"
-                />
-              </div>
-
-              {error && (
-                <p className="text-sm text-red-400">{error}</p>
-              )}
-
-              <div className="flex gap-3 pt-1">
-                <button
-                  type="button"
-                  onClick={onClose}
-                  className="flex-1 rounded-lg bg-white/5 px-4 py-2.5 text-sm font-medium text-zinc-300 hover:bg-white/10"
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  className="flex flex-1 items-center justify-center gap-2 rounded-lg bg-gradient-to-r from-violet-600 to-fuchsia-600 px-4 py-2.5 text-sm font-semibold text-white transition-all hover:shadow-lg hover:shadow-violet-600/25"
-                >
-                  Continue to Printora
-                  <ExternalLink className="h-3.5 w-3.5" />
-                </button>
-              </div>
-            </form>
-          )}
-
           {step === "loading" && (
             <div className="flex flex-col items-center py-8">
               <Loader2 className="mb-3 h-8 w-8 animate-spin text-violet-400" />
-              <p className="text-sm text-zinc-300">
-                Setting up your print session...
+              <p className="mb-1 text-sm font-medium text-zinc-300">
+                Connecting to Printora...
+              </p>
+              <p className="text-xs text-zinc-500">
+                Sending your design and account details
               </p>
             </div>
           )}
@@ -894,8 +849,8 @@ function PrintModal({
                 Printora Editor Opened!
               </p>
               <p className="mb-4 text-center text-sm text-zinc-400">
-                A new tab has opened with the Printora editor. Customize
-                your print and complete your order there.
+                A new tab has opened with the Printora editor.
+                Choose your product, customize, and order.
               </p>
               <button
                 onClick={onClose}
@@ -926,7 +881,7 @@ function PrintModal({
                 </button>
                 <button
                   onClick={() => {
-                    setStep("form");
+                    setStep("loading");
                     setError("");
                   }}
                   className="rounded-lg bg-violet-600 px-4 py-2 text-sm font-medium text-white hover:bg-violet-700"
