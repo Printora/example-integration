@@ -44,7 +44,7 @@ type PrintStep = "idle" | "form" | "loading" | "success" | "error";
 const GALLERY_IMAGES: GalleryImage[] = [
   {
     id: "1",
-    url: "https://picsum.photos/seed/dc-enchanted/600/800",
+    url: "https://images.unsplash.com/photo-1518562180175-34a163e1a500?w=600&h=800&fit=crop&q=80",
     title: "Enchanted Forest Gateway",
     creator: "luna_creates",
     avatar: "L",
@@ -60,7 +60,7 @@ const GALLERY_IMAGES: GalleryImage[] = [
   },
   {
     id: "2",
-    url: "https://picsum.photos/seed/dc-neon/600/600",
+    url: "https://images.unsplash.com/photo-1579546929518-9e396f3cc809?w=600&h=600&fit=crop&q=80",
     title: "Neon Soul",
     creator: "pixel_nomad",
     avatar: "P",
@@ -76,7 +76,7 @@ const GALLERY_IMAGES: GalleryImage[] = [
   },
   {
     id: "3",
-    url: "https://picsum.photos/seed/dc-cosmos/600/900",
+    url: "https://images.unsplash.com/photo-1462331940025-496dfbfc7564?w=600&h=900&fit=crop&q=80",
     title: "Birth of Stars",
     creator: "astro_dreamer",
     avatar: "A",
@@ -92,7 +92,7 @@ const GALLERY_IMAGES: GalleryImage[] = [
   },
   {
     id: "4",
-    url: "https://picsum.photos/seed/dc-abstract1/600/500",
+    url: "https://images.unsplash.com/photo-1541701494587-cb58502866ab?w=600&h=500&fit=crop&q=80",
     title: "Chromatic Waves",
     creator: "color_theory",
     avatar: "C",
@@ -108,7 +108,7 @@ const GALLERY_IMAGES: GalleryImage[] = [
   },
   {
     id: "5",
-    url: "https://picsum.photos/seed/dc-tiger/600/750",
+    url: "https://images.unsplash.com/photo-1474511320723-9a56873571b7?w=600&h=750&fit=crop&q=80",
     title: "Spirit of the Wild",
     creator: "nature_ai",
     avatar: "N",
@@ -124,7 +124,7 @@ const GALLERY_IMAGES: GalleryImage[] = [
   },
   {
     id: "6",
-    url: "https://picsum.photos/seed/dc-cityscape/600/400",
+    url: "https://images.unsplash.com/photo-1480044965905-02098d419e96?w=600&h=400&fit=crop&q=80",
     title: "Neo Tokyo 2099",
     creator: "future_vision",
     avatar: "F",
@@ -140,7 +140,7 @@ const GALLERY_IMAGES: GalleryImage[] = [
   },
   {
     id: "7",
-    url: "https://picsum.photos/seed/dc-mountain/600/850",
+    url: "https://images.unsplash.com/photo-1519681393784-d120267933ba?w=600&h=850&fit=crop&q=80",
     title: "Celestial Peaks",
     creator: "wanderlust_ai",
     avatar: "W",
@@ -156,7 +156,7 @@ const GALLERY_IMAGES: GalleryImage[] = [
   },
   {
     id: "8",
-    url: "https://picsum.photos/seed/dc-underwater/600/700",
+    url: "https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=600&h=700&fit=crop&q=80",
     title: "Deep Blue Dreams",
     creator: "ocean_mind",
     avatar: "O",
@@ -172,7 +172,7 @@ const GALLERY_IMAGES: GalleryImage[] = [
   },
   {
     id: "9",
-    url: "https://picsum.photos/seed/dc-garden/600/600",
+    url: "https://images.unsplash.com/photo-1557672172-298e090bd0f1?w=600&h=600&fit=crop&q=80",
     title: "Quantum Garden",
     creator: "synth_flora",
     avatar: "S",
@@ -188,7 +188,7 @@ const GALLERY_IMAGES: GalleryImage[] = [
   },
   {
     id: "10",
-    url: "https://picsum.photos/seed/dc-samurai/600/800",
+    url: "https://images.unsplash.com/photo-1536431311719-398b6704d4cc?w=600&h=800&fit=crop&q=80",
     title: "Last Samurai's Dream",
     creator: "edo_visions",
     avatar: "E",
@@ -204,7 +204,7 @@ const GALLERY_IMAGES: GalleryImage[] = [
   },
   {
     id: "11",
-    url: "https://picsum.photos/seed/dc-robot/600/500",
+    url: "https://images.unsplash.com/photo-1635322966219-b75ed372eb01?w=600&h=500&fit=crop&q=80",
     title: "Mechanical Heart",
     creator: "steampunk_lab",
     avatar: "M",
@@ -220,7 +220,7 @@ const GALLERY_IMAGES: GalleryImage[] = [
   },
   {
     id: "12",
-    url: "https://picsum.photos/seed/dc-wolf/600/750",
+    url: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&h=750&fit=crop&q=80",
     title: "Moonlit Guardian",
     creator: "nature_ai",
     avatar: "N",
@@ -236,7 +236,7 @@ const GALLERY_IMAGES: GalleryImage[] = [
   },
   {
     id: "13",
-    url: "https://picsum.photos/seed/dc-temple/600/650",
+    url: "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=600&h=650&fit=crop&q=80",
     title: "Forgotten Temple",
     creator: "ruins_explorer",
     avatar: "R",
@@ -252,7 +252,7 @@ const GALLERY_IMAGES: GalleryImage[] = [
   },
   {
     id: "14",
-    url: "https://picsum.photos/seed/dc-aurora/600/450",
+    url: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600&h=450&fit=crop&q=80",
     title: "Aurora Cascade",
     creator: "wanderlust_ai",
     avatar: "W",
@@ -268,7 +268,7 @@ const GALLERY_IMAGES: GalleryImage[] = [
   },
   {
     id: "15",
-    url: "https://picsum.photos/seed/dc-dragon/600/900",
+    url: "https://images.unsplash.com/photo-1534312527009-56c7016453e6?w=600&h=900&fit=crop&q=80",
     title: "Dragon's Awakening",
     creator: "myth_maker",
     avatar: "D",
@@ -284,7 +284,7 @@ const GALLERY_IMAGES: GalleryImage[] = [
   },
   {
     id: "16",
-    url: "https://picsum.photos/seed/dc-girl/600/700",
+    url: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=600&h=700&fit=crop&q=80",
     title: "Electric Dreams",
     creator: "synth_wave",
     avatar: "S",
@@ -325,11 +325,31 @@ function formatNumber(n: number): string {
   return n.toString();
 }
 
+// ============ Demo Banner ============
+
+function DemoBanner() {
+  return (
+    <div className="border-b border-emerald-500/20 bg-emerald-500/10 px-4 py-2.5 text-center">
+      <p className="text-sm text-emerald-300">
+        <span className="mr-2 inline-flex items-center rounded-full bg-emerald-500/20 px-2 py-0.5 text-xs font-bold uppercase tracking-wider text-emerald-400">
+          Partner Demo
+        </span>
+        This is a simulated AI platform showing Printora&apos;s partner integration.{" "}
+        <span className="font-medium text-white">
+          Click any image &rarr; &ldquo;Print as Wall Art&rdquo;
+        </span>{" "}
+        to test the real flow.
+      </p>
+    </div>
+  );
+}
+
 // ============ Header ============
 
 function Header() {
   return (
     <header className="sticky top-0 z-50 border-b border-white/5 bg-[#0a0a12]/90 backdrop-blur-xl">
+      <DemoBanner />
       <div className="mx-auto flex h-16 max-w-[1600px] items-center justify-between px-4 sm:px-6">
         {/* Logo */}
         <div className="flex items-center gap-2">
@@ -341,40 +361,51 @@ function Header() {
           </span>
         </div>
 
-        {/* Nav */}
+        {/* Nav — demo-only items grayed out */}
         <nav className="hidden items-center gap-1 md:flex">
           {["Create", "Browse", "Models", "Community"].map((item) => (
             <button
               key={item}
-              className={`rounded-lg px-3 py-1.5 text-sm font-medium transition-colors ${
+              className={`relative rounded-lg px-3 py-1.5 text-sm font-medium transition-colors ${
                 item === "Browse"
                   ? "bg-white/10 text-white"
-                  : "text-zinc-400 hover:text-white"
+                  : "cursor-not-allowed text-zinc-600"
               }`}
+              disabled={item !== "Browse"}
+              title={item !== "Browse" ? "Demo only — not functional" : undefined}
             >
               {item}
             </button>
           ))}
         </nav>
 
-        {/* Search */}
+        {/* Search — disabled for demo */}
         <div className="hidden max-w-xs flex-1 px-6 lg:block">
-          <div className="relative">
+          <div className="relative opacity-40">
             <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-zinc-500" />
             <input
               type="text"
               placeholder="Search creations..."
-              className="w-full rounded-full border border-white/10 bg-white/5 py-2 pl-10 pr-4 text-sm text-white placeholder:text-zinc-500 focus:border-violet-500/50 focus:outline-none focus:ring-1 focus:ring-violet-500/25"
+              disabled
+              className="w-full cursor-not-allowed rounded-full border border-white/10 bg-white/5 py-2 pl-10 pr-4 text-sm text-white placeholder:text-zinc-500"
             />
           </div>
         </div>
 
-        {/* Auth */}
-        <div className="flex items-center gap-3">
-          <button className="hidden text-sm text-zinc-400 hover:text-white sm:block">
+        {/* Auth — disabled for demo */}
+        <div className="flex items-center gap-3 opacity-40">
+          <button
+            disabled
+            className="hidden cursor-not-allowed text-sm text-zinc-600 sm:block"
+            title="Demo only — not functional"
+          >
             Log in
           </button>
-          <button className="rounded-full bg-gradient-to-r from-violet-600 to-fuchsia-600 px-4 py-1.5 text-sm font-medium text-white transition-all hover:shadow-lg hover:shadow-violet-500/25">
+          <button
+            disabled
+            className="cursor-not-allowed rounded-full bg-zinc-700 px-4 py-1.5 text-sm font-medium text-zinc-400"
+            title="Demo only — not functional"
+          >
             Sign Up
           </button>
         </div>
@@ -415,13 +446,13 @@ function FilterBar({
           ))}
         </div>
 
-        <div className="ml-auto flex shrink-0 items-center gap-2">
-          <button className="flex items-center gap-1.5 rounded-lg bg-white/5 px-3 py-1.5 text-sm text-zinc-400 hover:bg-white/10 hover:text-white">
+        <div className="ml-auto flex shrink-0 items-center gap-2 opacity-30">
+          <button disabled className="flex cursor-not-allowed items-center gap-1.5 rounded-lg bg-white/5 px-3 py-1.5 text-sm text-zinc-500" title="Demo only">
             <LayoutGrid className="h-3.5 w-3.5" />
             <span className="hidden sm:inline">Aspect</span>
             <ChevronDown className="h-3 w-3" />
           </button>
-          <button className="flex items-center gap-1.5 rounded-lg bg-white/5 px-3 py-1.5 text-sm text-zinc-400 hover:bg-white/10 hover:text-white">
+          <button disabled className="flex cursor-not-allowed items-center gap-1.5 rounded-lg bg-white/5 px-3 py-1.5 text-sm text-zinc-500" title="Demo only">
             <Zap className="h-3.5 w-3.5" />
             <span className="hidden sm:inline">Model</span>
             <ChevronDown className="h-3 w-3" />
@@ -649,7 +680,7 @@ function ImageModal({
           <div className="border-t border-white/5 p-4">
             <button
               onClick={onPrint}
-              className="flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-violet-600 to-fuchsia-600 px-4 py-3 text-sm font-semibold text-white shadow-lg shadow-violet-600/20 transition-all hover:shadow-xl hover:shadow-violet-600/30"
+              className="flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-violet-600 to-fuchsia-600 px-4 py-3 text-sm font-semibold text-white shadow-lg shadow-violet-600/20 transition-all hover:shadow-xl hover:shadow-violet-600/30 animate-pulse"
             >
               <svg
                 className="h-4 w-4"
@@ -943,9 +974,9 @@ export default function DreamCanvasPage() {
           ))}
         </div>
 
-        {/* Load more hint */}
+        {/* Load more — demo only */}
         <div className="mt-12 flex justify-center pb-8">
-          <button className="rounded-full bg-white/5 px-8 py-2.5 text-sm font-medium text-zinc-400 transition-all hover:bg-white/10 hover:text-white">
+          <button disabled className="cursor-not-allowed rounded-full bg-white/5 px-8 py-2.5 text-sm font-medium text-zinc-600 opacity-40" title="Demo only">
             Load More
           </button>
         </div>
