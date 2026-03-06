@@ -336,7 +336,7 @@ function DemoBanner() {
         </span>
         This is a simulated AI platform showing Printora&apos;s partner integration.{" "}
         <span className="font-medium text-white">
-          Click any image &rarr; &ldquo;Print as Wall Art&rdquo;
+          Click any image &rarr; &ldquo;Print on Product&rdquo;
         </span>{" "}
         to test the real flow.
       </p>
@@ -427,23 +427,28 @@ function FilterBar({
     <div className="border-b border-white/5 bg-[#0a0a12]/60">
       <div className="mx-auto flex max-w-[1600px] items-center gap-3 overflow-x-auto px-4 py-3 sm:px-6">
         <div className="flex items-center gap-1.5">
-          {CATEGORIES.map((cat) => (
-            <button
-              key={cat}
-              onClick={() => onSelect(cat)}
-              className={`flex shrink-0 items-center gap-1.5 rounded-full px-3.5 py-1.5 text-sm font-medium capitalize transition-all ${
-                active === cat
-                  ? "bg-violet-600 text-white shadow-lg shadow-violet-600/25"
-                  : "bg-white/5 text-zinc-400 hover:bg-white/10 hover:text-white"
-              }`}
-            >
-              {cat === "trending" && (
-                <TrendingUp className="h-3.5 w-3.5" />
-              )}
-              {cat === "all" && <Grid3X3 className="h-3.5 w-3.5" />}
-              {cat}
-            </button>
-          ))}
+          {CATEGORIES.map((cat) => {
+            const isAll = cat === "all";
+            return (
+              <button
+                key={cat}
+                onClick={isAll ? () => onSelect(cat) : undefined}
+                disabled={!isAll}
+                className={`flex shrink-0 items-center gap-1.5 rounded-full px-3.5 py-1.5 text-sm font-medium capitalize transition-all ${
+                  isAll
+                    ? "bg-violet-600 text-white shadow-lg shadow-violet-600/25"
+                    : "cursor-not-allowed bg-white/5 text-zinc-600 opacity-40"
+                }`}
+                title={!isAll ? "Demo only" : undefined}
+              >
+                {cat === "trending" && (
+                  <TrendingUp className="h-3.5 w-3.5" />
+                )}
+                {cat === "all" && <Grid3X3 className="h-3.5 w-3.5" />}
+                {cat}
+              </button>
+            );
+          })}
         </div>
 
         <div className="ml-auto flex shrink-0 items-center gap-2 opacity-30">
@@ -695,9 +700,17 @@ function ImageModal({
                 <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2" />
                 <rect x="6" y="14" width="12" height="8" />
               </svg>
-              Print as Wall Art
+              Print on Product
               <ArrowRight className="h-4 w-4" />
             </button>
+            <div className="mt-2 flex flex-wrap items-center justify-center gap-1.5 text-xs text-zinc-500">
+              <span className="rounded bg-white/5 px-1.5 py-0.5">Wall Art</span>
+              <span className="rounded bg-white/5 px-1.5 py-0.5">T-Shirt</span>
+              <span className="rounded bg-white/5 px-1.5 py-0.5">Mug</span>
+              <span className="rounded bg-white/5 px-1.5 py-0.5">Phone Case</span>
+              <span className="rounded bg-white/5 px-1.5 py-0.5">Tote Bag</span>
+              <span className="text-zinc-600">+more</span>
+            </div>
             <div className="mt-2 flex items-center justify-center gap-1.5 text-xs text-zinc-500">
               <span>Powered by</span>
               <span className="font-semibold text-zinc-400">Printora</span>
@@ -796,7 +809,7 @@ function PrintModal({
           <div>
             <h3 className="font-semibold text-white">Print Your Art</h3>
             <p className="text-sm text-zinc-400">
-              Turn &ldquo;{image.title}&rdquo; into premium wall art
+              Print &ldquo;{image.title}&rdquo; on any product
             </p>
           </div>
         </div>
