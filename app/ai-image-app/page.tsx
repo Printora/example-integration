@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useRef, useEffect } from "react";
 import {
   Heart,
   Share2,
@@ -443,6 +443,14 @@ function ImageCard({
 }) {
   const [liked, setLiked] = useState(false);
   const [loaded, setLoaded] = useState(false);
+  const imgRef = useRef<HTMLImageElement>(null);
+
+  // Handle images that load before React hydration
+  useEffect(() => {
+    if (imgRef.current?.complete && imgRef.current.naturalWidth > 0) {
+      setLoaded(true);
+    }
+  }, []);
 
   return (
     <div
@@ -456,6 +464,7 @@ function ImageCard({
           <div className="absolute inset-0 animate-pulse bg-zinc-800/50" />
         )}
         <img
+          ref={imgRef}
           src={image.url}
           alt={image.title}
           className={`h-full w-full object-cover transition-all duration-500 group-hover:scale-105 ${
