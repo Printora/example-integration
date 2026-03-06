@@ -85,11 +85,12 @@ export async function POST(request: Request) {
   } catch (error) {
     // Handle Printora API errors
     if (error instanceof Error && "status" in error && "code" in error) {
-      const apiError = error as { status: number; code: string; message: string };
+      const apiError = error as { status: number; code: string; message: string; details?: unknown };
       return NextResponse.json(
         {
           error: apiError.message,
           code: apiError.code,
+          details: apiError.details,
         },
         { status: apiError.status }
       );

@@ -25,7 +25,8 @@ export class PrintoraApiError extends Error {
   constructor(
     public status: number,
     public code: string,
-    message: string
+    message: string,
+    public details?: unknown
   ) {
     super(message);
     this.name = "PrintoraApiError";
@@ -74,7 +75,9 @@ export async function createSession(
   if (!response.ok) {
     let errorData: PrintoraErrorResponse = {};
     try {
-      errorData = await response.json();
+      const rawError = await response.json();
+      // Handle nested error structure: { success: false, error: { code, message, details } }
+      errorData = rawError.error ?? rawError;
     } catch {
       // If parsing fails, use default error data
     }
@@ -89,11 +92,11 @@ export async function createSession(
     }
 
     if (response.status === 400) {
-      throw new PrintoraApiError(400, "VALIDATION_FAILED", `Validation failed: ${errorMessage}`);
+      throw new PrintoraApiError(400, "VALIDATION_FAILED", `Validation failed: ${errorMessage}`, errorData.details);
     }
 
     // Generic error for other status codes
-    throw new PrintoraApiError(response.status, errorCode, errorMessage);
+    throw new PrintoraApiError(response.status, errorCode, errorMessage, errorData.details);
   }
 
   const data = await response.json();

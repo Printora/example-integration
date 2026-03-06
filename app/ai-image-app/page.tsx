@@ -742,12 +742,15 @@ function PrintModal({
 
     async function createSession() {
       try {
+        const origin = window.location.origin;
         const res = await fetch("/api/printora/session", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             imageUrl: image.url,
             userData: DEMO_USER,
+            successUrl: `${origin}/callback/success`,
+            failedUrl: `${origin}/callback/failed`,
           }),
         });
 
