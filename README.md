@@ -2,6 +2,30 @@
 
 A complete example implementation demonstrating how to integrate with the Printora Partner API. This project showcases the full integration flow including session creation, webhook handling, and order management.
 
+## Live Demo
+
+**Try it now:** [printora-example-integration.vercel.app/ai-image-app](https://printora-example-integration.vercel.app/ai-image-app)
+
+This demo app ("DreamCanvas") simulates an AI image generation platform that integrates with Printora. Click any image, then click **"Print on Product"** to see the full partner integration in action.
+
+### How the Demo Works (End-to-End Flow)
+
+1. **User browses gallery** — DreamCanvas shows a gallery of AI-generated images
+2. **User clicks an image** — A detail modal opens showing the image, prompt, and creator info
+3. **User clicks "Print on Product"** — The app calls Printora's Partner API:
+   ```
+   POST https://api-staging.printora.ai/api/v1/partner-session
+   Body: { image_url, user_data: { email, name } }
+   Headers: { x-api-key: PRINTORA_API_KEY }
+   ```
+4. **API returns a session token** — A unique redirect URL is generated
+5. **User is redirected to Printora Editor** — Opens `staging.printora.ai/en/print/<token>` in a new tab
+6. **User selects a product** — Chooses from T-Shirts, Hoodies, Mugs, Posters, Home Decor
+7. **Design is previewed on product** — The partner's image is rendered on the selected product mockup
+8. **User can customize & order** — Select color, size, and complete checkout through Printora
+
+The partner (DreamCanvas) receives webhook notifications for order lifecycle events (created, paid, shipped, delivered).
+
 ## What This Example Demonstrates
 
 This example integration shows how to:
@@ -108,8 +132,10 @@ bun dev
 ```
 example-integration/
 ├── app/
-│   ├── page.tsx              # Landing page
-│   ├── create-session/       # Session creation demo
+│   ├── page.tsx              # Landing page (partner API docs overview)
+│   ├── ai-image-app/         # DreamCanvas demo (AI gallery → Print on Product)
+│   │   └── page.tsx          # Full demo with gallery, modal, session creation
+│   ├── create-session/       # Session creation demo (simple form)
 │   ├── dashboard/            # Order management dashboard
 │   ├── callback/             # Success/failure pages
 │   └── api/
