@@ -62,7 +62,7 @@ Before running this example, you need:
 
 ### Getting Printora Credentials
 
-1. Contact Printora to become a partner
+1. Register at the **[Printora Partner Dashboard](https://partner.printora.ai)** to become a partner
 2. Receive your partner API credentials:
    - API Key (starts with `pk_test_` for test environment)
    - Webhook Secret (starts with `whsec_`)
