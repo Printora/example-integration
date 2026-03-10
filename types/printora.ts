@@ -14,10 +14,10 @@
  * User data provided when creating a Printora session
  */
 export interface PrintoraUserData {
-  email: string;
-  name: string;
-  firstName: string;
-  lastName: string;
+  email?: string;
+  name?: string;
+  firstName?: string;
+  lastName?: string;
 }
 
 /**
@@ -27,7 +27,7 @@ export interface PrintoraSessionRequest {
   /** URL to the design image to be edited */
   imageUrl: string;
   /** Customer information for the session */
-  userData: PrintoraUserData;
+  userData?: PrintoraUserData;
   /** URL to redirect to after successful checkout */
   successUrl: string;
   /** URL to redirect to after failed/cancelled checkout */
