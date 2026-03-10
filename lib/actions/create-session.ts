@@ -26,7 +26,7 @@ export interface FormState {
 const createSessionFormSchema = z.object({
   imageUrl: z.string().url("Invalid URL format"),
   name: z.string().optional(),
-  email: z.string().email("Invalid email address").optional(),
+  email: z.string().email("Invalid email address").optional().or(z.literal("")),
 });
 
 /**
