@@ -15,9 +15,9 @@ import { createSession } from "@/lib/printora-client";
 const createSessionSchema = z.object({
   imageUrl: z.string().url("Invalid URL format for imageUrl"),
   userData: z.object({
-    name: z.string().min(1, "Name is required"),
-    email: z.string().email("Invalid email address"),
-  }),
+    name: z.string().optional(),
+    email: z.string().email("Invalid email address").optional().or(z.literal("")),
+  }).optional(),
   successUrl: z.string().url("Invalid URL format for successUrl").optional(),
   failedUrl: z.string().url("Invalid URL format for failedUrl").optional(),
 });
@@ -57,7 +57,7 @@ export async function POST(request: Request) {
     const finalFailedUrl = failedUrl || (isLocalhost ? "https://printora.ai" : `${appUrl}/callback/failed`);
 
     // Split name into firstName and lastName
-    const nameParts = userData.name.trim().split(" ");
+    const nameParts = (userData?.name ?? "").trim().split(" ");
     const firstName = nameParts[0] || "";
     const lastName = nameParts.slice(1).join(" ") || "";
 
@@ -65,10 +65,10 @@ export async function POST(request: Request) {
     const response = await createSession({
       imageUrl,
       userData: {
-        email: userData.email,
-        name: userData.name,
-        firstName,
-        lastName,
+        email: userData?.email || undefined,
+        name: userData?.name || undefined,
+        firstName: firstName || undefined,
+        lastName: lastName || undefined,
       },
       successUrl: finalSuccessUrl,
       failedUrl: finalFailedUrl,
