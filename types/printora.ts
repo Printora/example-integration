@@ -21,11 +21,24 @@ export interface PrintoraUserData {
 }
 
 /**
- * Request payload for creating a partner session
+ * Request payload for creating a partner session.
+ * Provide exactly ONE of imageUrl, creatorId, or merchId.
+ *
+ * - imageUrl:  Flow A — Custom image upload
+ * - creatorId: Flow B — Creator storefront (user browses all creator merch)
+ * - merchId:   Flow C — Direct merch link (user lands on specific merch item)
  */
 export interface PrintoraSessionRequest {
-  /** URL to the design image to be edited */
-  imageUrl: string;
+  /** Flow A: Public URL of the design image (PNG/JPG, 2000x2000px recommended) */
+  imageUrl?: string;
+  /** Flow B: Creator ID — user browses all creator merch */
+  creatorId?: string;
+  /** Flow C: Merch ID — user lands on specific merch item */
+  merchId?: string;
+  /** Optional: Pre-select a specific variant for the merch item */
+  variantId?: string;
+  /** Optional: Quantity (1-100, default: 1). Validated against stockLimit for limited edition merch. */
+  quantity?: number;
   /** Customer information for the session */
   userData?: PrintoraUserData;
   /** URL to redirect to after successful checkout */
