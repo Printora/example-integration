@@ -109,3 +109,165 @@ export async function createSession(
 
   return data as PrintoraSessionResponse;
 }
+
+// ============ Merch Management ============
+// Docs: FRONTEND_INTEGRATION_GUIDE.md > Merch
+
+/**
+ * Create merch request — POST /api/v1/creators/:creatorId/merch
+ *
+ * Fields per docs:
+ *  - title (required)
+ *  - description
+ *  - productId (required, UUID from catalog)
+ *  - variantIds (required, UUID[] belonging to productId)
+ *  - designImageUrl (required, public URL of design image)
+ *  - stockLimit (optional, null = unlimited)
+ */
+export interface CreateMerchRequest {
+  title: string;
+  description?: string;
+  productId: string;
+  variantIds: string[];
+  designImageUrl: string;
+  stockLimit?: number | null;
+}
+
+/**
+ * Update merch request — PUT /api/v1/creators/:creatorId/merch/:merchId
+ *
+ * All fields optional per docs.
+ */
+/**
+ * Update merch request — PUT /api/v1/creators/:creatorId/merch/:merchId
+ *
+ * All fields optional per CREATOR_SYSTEM.md:
+ *  - title, description, designImageUrl
+ *  - productId, variantIds (must belong to productId)
+ *  - status: "active" | "inactive" | "archived"
+ *  - isActive: boolean (quick toggle)
+ *  - sortOrder: integer (display order)
+ *  - stockLimit: integer | null
+ */
+export interface UpdateMerchRequest {
+  title?: string;
+  description?: string;
+  productId?: string;
+  variantIds?: string[];
+  designImageUrl?: string;
+  stockLimit?: number | null;
+  status?: "active" | "inactive" | "archived";
+  isActive?: boolean;
+  sortOrder?: number;
+}
+
+export interface MerchVariantResponse {
+  id: string;
+  color: string;
+  colorCode: string | null;
+  size: string;
+  endPrice: number;
+}
+
+export interface MerchEditSession {
+  sessionId: string;
+  token: string;
+  editorUrl: string;
+  expiresAt: string;
+}
+
+export interface MerchResponse {
+  id: string;
+  title: string;
+  description: string;
+  designImageUrl: string;
+  status: string;
+  stockLimit: number | null;
+  stockSold: number;
+  stockRemaining: number | null;
+  isLimitedEdition: boolean;
+  konvaMetadata: unknown | null;
+  hasDesign: boolean;
+  product: {
+    id: string;
+    name: string;
+  };
+  variants: MerchVariantResponse[];
+  createdAt: string;
+  editSession?: MerchEditSession;
+}
+
+/**
+ * Helper: make authenticated request to Printora API
+ */
+async function printoraFetch(method: string, path: string, body?: unknown) {
+  const url = `${env.PRINTORA_API_URL}${path}`;
+
+  console.log(`[Printora API] ${method} ${url}`);
+  if (body) console.log(`[Printora API] Request body:`, JSON.stringify(body, null, 2));
+
+  const options: RequestInit = {
+    method,
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${env.PRINTORA_API_KEY}`,
+    },
+  };
+  if (body) {
+    options.body = JSON.stringify(body);
+  }
+
+  const response = await fetch(url, options);
+
+  if (!response.ok) {
+    let errorData: PrintoraErrorResponse = {};
+    try {
+      const rawError = await response.json();
+      errorData = rawError.error ?? rawError;
+    } catch {
+      // If parsing fails, use default error data
+    }
+
+    console.error(`[Printora API] Error ${response.status}:`, JSON.stringify(errorData, null, 2));
+
+    const errorMessage = errorData.message ?? `HTTP ${response.status}`;
+    const errorCode = errorData.code ?? "UNKNOWN";
+
+    throw new PrintoraApiError(response.status, errorCode, errorMessage, errorData.details);
+  }
+
+  const data = await response.json();
+  console.log(`[Printora API] Response:`, JSON.stringify(data, null, 2));
+
+  // Handle nested: { success: true, merch: {...} } or { success: true, data: {...} }
+  if (data.success) {
+    return data.merch ?? data.data ?? data;
+  }
+
+  return data;
+}
+
+/**
+ * Creates a new merch item for a creator
+ *
+ * POST /api/v1/creators/:creatorId/merch
+ */
+export async function createCreatorMerch(
+  creatorId: string,
+  request: CreateMerchRequest
+): Promise<MerchResponse> {
+  return printoraFetch("POST", `/api/v1/creators/${creatorId}/merch`, request);
+}
+
+/**
+ * Updates an existing merch item
+ *
+ * PUT /api/v1/creators/:creatorId/merch/:merchId
+ */
+export async function updateCreatorMerch(
+  creatorId: string,
+  merchId: string,
+  request: UpdateMerchRequest
+): Promise<MerchResponse> {
+  return printoraFetch("PUT", `/api/v1/creators/${creatorId}/merch/${merchId}`, request);
+}
