@@ -25,7 +25,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import type { Creator, MerchVariant, MerchInfo, GalleryImage, PrintStep } from "./data";
-import { CREATORS, MERCH_CATALOG, GALLERY_IMAGES, CATEGORIES, DEMO_USER, getMerch } from "./data";
+import { CREATORS, GALLERY_IMAGES, CATEGORIES, DEMO_USER, getMerch } from "./data";
 
 // Data imported from ./data
 
@@ -295,6 +295,13 @@ function ImageCard({
         {/* Hover overlay */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
 
+        {/* Merch badge (always visible) */}
+        {image.merchId && (
+          <div className="absolute left-2 top-2 flex h-7 w-7 items-center justify-center rounded-full bg-violet-600/90 text-white shadow-lg shadow-violet-600/30">
+            <ShoppingBag className="h-3.5 w-3.5" />
+          </div>
+        )}
+
         {/* Top actions on hover */}
         <div className="absolute right-2 top-2 flex gap-1.5 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
           <button
@@ -471,22 +478,35 @@ function ImageModal({
 
           {/* Print CTA */}
           <div className="border-t border-white/5 p-4">
-            <button
-              onClick={onPrint}
-              className="flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-violet-600 to-fuchsia-600 px-4 py-3 text-sm font-semibold text-white shadow-lg shadow-violet-600/20 transition-all hover:shadow-xl hover:shadow-violet-600/30 animate-pulse"
-            >
-              <Store className="h-4 w-4" />
-              Shop {creator.name}&apos;s Merch
-              <ArrowRight className="h-4 w-4" />
-            </button>
-            <div className="mt-2 flex flex-wrap items-center justify-center gap-1.5 text-xs text-zinc-500">
-              <span className="rounded bg-white/5 px-1.5 py-0.5">T-Shirts</span>
-              <span className="rounded bg-white/5 px-1.5 py-0.5">Hoodies</span>
-              <span className="rounded bg-white/5 px-1.5 py-0.5">Mugs</span>
-              <span className="rounded bg-white/5 px-1.5 py-0.5">Posters</span>
-              <span className="rounded bg-white/5 px-1.5 py-0.5">Home Decor</span>
-              <span className="text-zinc-600">+more</span>
-            </div>
+            {image.merchId ? (
+              <>
+                <button
+                  onClick={onPrint}
+                  className="flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-violet-600 to-fuchsia-600 px-4 py-3 text-sm font-semibold text-white shadow-lg shadow-violet-600/20 transition-all hover:shadow-xl hover:shadow-violet-600/30 animate-pulse"
+                >
+                  <ShoppingBag className="h-4 w-4" />
+                  Shop {creator.name}&apos;s Merch
+                  <ArrowRight className="h-4 w-4" />
+                </button>
+                <div className="mt-2 flex flex-wrap items-center justify-center gap-1.5 text-xs text-zinc-500">
+                  <span className="rounded bg-white/5 px-1.5 py-0.5">T-Shirts</span>
+                  <span className="rounded bg-white/5 px-1.5 py-0.5">Hoodies</span>
+                  <span className="rounded bg-white/5 px-1.5 py-0.5">Mugs</span>
+                  <span className="rounded bg-white/5 px-1.5 py-0.5">Posters</span>
+                  <span className="rounded bg-white/5 px-1.5 py-0.5">Home Decor</span>
+                  <span className="text-zinc-600">+more</span>
+                </div>
+              </>
+            ) : (
+              <button
+                onClick={onPrint}
+                className="flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-emerald-600 to-cyan-600 px-4 py-3 text-sm font-semibold text-white shadow-lg shadow-emerald-600/20 transition-all hover:shadow-xl hover:shadow-emerald-600/30"
+              >
+                <Palette className="h-4 w-4" />
+                Print this Design on a Product
+                <ArrowRight className="h-4 w-4" />
+              </button>
+            )}
             <div className="mt-2 flex items-center justify-center gap-1.5 text-xs text-zinc-500">
               <span>Powered by</span>
               <span className="font-semibold text-zinc-400">Printora</span>
@@ -652,7 +672,8 @@ function PrintModal({
   image: GalleryImage;
   onClose: () => void;
 }) {
-  const localMerch = getMerch(image.merchId);
+  const hasMerch = !!image.merchId;
+  const localMerch = hasMerch ? getMerch(image.merchId!) : null;
   const creator = getCreator(image.creatorId);
   const [merch, setMerch] = useState<MerchInfo | null>(localMerch);
   const [selectedVariant, setSelectedVariant] = useState<MerchVariant | null>(
@@ -660,7 +681,7 @@ function PrintModal({
   );
   const [step, setStep] = useState<PrintStep>("idle");
   const [error, setError] = useState("");
-  const [loadingMerch, setLoadingMerch] = useState(true);
+  const [loadingMerch, setLoadingMerch] = useState(hasMerch);
   const [stockInfo, setStockInfo] = useState<{
     stockLimit: number | null;
     stockSold: number;
@@ -668,8 +689,9 @@ function PrintModal({
     isLimitedEdition: boolean;
   } | null>(null);
 
-  // Fetch latest merch data from BE
+  // Fetch latest merch data from BE (only for Flow C)
   useEffect(() => {
+    if (!hasMerch) return;
     async function fetchMerch() {
       try {
         const res = await fetch(`/api/merch/${image.merchId}?creatorId=${image.creatorId}`);
@@ -711,21 +733,23 @@ function PrintModal({
       }
     }
     fetchMerch();
-  }, [image.merchId, image.creatorId]);
+  }, [image.merchId, image.creatorId, hasMerch]);
 
   async function handleOrder() {
     setStep("loading");
     setError("");
 
     try {
+      // Flow C: Direct Merch (with merchId + variantId)
+      // Flow A: Image Upload (with imageUrl only)
+      const body = hasMerch
+        ? { merchId: image.merchId, variantId: selectedVariant?.id, userData: DEMO_USER }
+        : { imageUrl: image.url, userData: DEMO_USER };
+
       const res = await fetch("/api/printora/session", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          merchId: image.merchId,
-          variantId: selectedVariant?.id,
-          userData: DEMO_USER,
-        }),
+        body: JSON.stringify(body),
       });
 
       const data = await res.json();
@@ -769,7 +793,61 @@ function PrintModal({
           </div>
         )}
 
-        {step === "idle" && !loadingMerch && merch && (
+        {/* Flow A: Image Upload (no merch) */}
+        {step === "idle" && !hasMerch && (
+          <>
+            <div className="flex gap-4 border-b border-white/5 p-5">
+              <div className="h-24 w-24 shrink-0 overflow-hidden rounded-xl bg-zinc-900">
+                <img src={image.url} alt={image.title} className="h-full w-full object-cover" />
+              </div>
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center gap-2 mb-1">
+                  <div className={`flex h-6 w-6 items-center justify-center rounded-full bg-gradient-to-br ${creator.gradient} text-[9px] font-bold text-white`}>
+                    {creator.avatar}
+                  </div>
+                  <span className="text-xs text-zinc-500">@{creator.slug}</span>
+                </div>
+                <h3 className="font-semibold text-white truncate">{image.title}</h3>
+                <p className="mt-1 text-xs text-zinc-400">{image.prompt.slice(0, 80)}...</p>
+              </div>
+            </div>
+
+            {/* Flow indicator */}
+            <div className="border-b border-white/5 px-5 py-2">
+              <div className="flex items-center gap-2 text-xs">
+                <span className="rounded bg-cyan-500/20 px-1.5 py-0.5 font-medium text-cyan-300">
+                  Flow A
+                </span>
+                <span className="text-zinc-500">
+                  Image Upload &mdash; session with <code className="rounded bg-white/5 px-1 text-zinc-400">imageUrl</code>
+                </span>
+              </div>
+            </div>
+
+            {/* Simple CTA */}
+            <div className="p-5">
+              <p className="mb-4 text-sm text-zinc-400">
+                This design doesn&apos;t have a merch listing yet. Print it on any product — you&apos;ll choose the product and variant in the Printora editor.
+              </p>
+              <div className="mb-4 rounded-lg bg-white/5 p-3 text-xs text-zinc-500">
+                <div className="mb-1 font-medium text-zinc-400">Ordering as</div>
+                <span className="text-white font-medium">{DEMO_USER.name}</span>{" "}
+                ({DEMO_USER.email})
+              </div>
+              <button
+                onClick={handleOrder}
+                className="flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-emerald-600 to-cyan-600 py-3 text-sm font-semibold text-white shadow-lg shadow-emerald-600/20 transition-all hover:shadow-xl hover:shadow-emerald-600/30"
+              >
+                <Palette className="h-4 w-4" />
+                Open Printora Editor
+                <ArrowRight className="h-4 w-4" />
+              </button>
+            </div>
+          </>
+        )}
+
+        {/* Flow C: Direct Merch */}
+        {step === "idle" && !loadingMerch && hasMerch && merch && (
           <>
             {/* Product header with image */}
             <div className="flex gap-4 border-b border-white/5 p-5">

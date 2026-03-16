@@ -32,7 +32,7 @@ export interface GalleryImage {
   url: string;
   title: string;
   creatorId: string;
-  merchId: string;
+  merchId?: string;
   prompt: string;
   model: string;
   likes: number;
@@ -380,7 +380,6 @@ export const GALLERY_IMAGES: GalleryImage[] = [
     url: "https://images.unsplash.com/photo-1579546929518-9e396f3cc809?w=600&h=600&fit=crop&q=80",
     title: "Neon Soul",
     creatorId: "7efd3b6e-e7de-40a2-889a-2593e8cbc854",
-    merchId: "8a57055b-4d1b-4d78-b7d9-43a4d641e7ec",
     prompt: "Cyberpunk portrait with neon reflections, photorealistic, dramatic rim lighting, rain drops, moody atmosphere",
     model: "DreamCanvas XL v3.2",
     likes: 5291, views: 41033, comments: 298,
@@ -402,7 +401,6 @@ export const GALLERY_IMAGES: GalleryImage[] = [
     url: "https://images.unsplash.com/photo-1541701494587-cb58502866ab?w=600&h=500&fit=crop&q=80",
     title: "Chromatic Waves",
     creatorId: "76f69027-62a5-4a61-9d8d-470ebd5204ec",
-    merchId: "63c69f12-c7a1-4c3a-bdd0-f579ee923cd9",
     prompt: "Abstract flowing liquid art, chromatic aberration, iridescent metallic surface, macro photography style, vibrant spectrum",
     model: "DreamCanvas v2.8",
     likes: 2156, views: 18700, comments: 87,
@@ -424,7 +422,6 @@ export const GALLERY_IMAGES: GalleryImage[] = [
     url: "https://images.unsplash.com/photo-1480044965905-02098d419e96?w=600&h=400&fit=crop&q=80",
     title: "Neo Tokyo 2099",
     creatorId: "f87c5f80-c24c-498a-a930-648bb1bd4e81",
-    merchId: "df8b1044-458b-41c9-8c39-2f23049ba67b",
     prompt: "Futuristic cyberpunk cityscape at night, flying cars, holographic advertisements, rain-soaked streets, blade runner inspired",
     model: "DreamCanvas XL v3.2",
     likes: 6834, views: 48100, comments: 356,
@@ -446,7 +443,6 @@ export const GALLERY_IMAGES: GalleryImage[] = [
     url: "https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=600&h=700&fit=crop&q=80",
     title: "Deep Blue Dreams",
     creatorId: "18143590-b192-45fe-8f9b-2005e2a6e2db",
-    merchId: "cb4c0a7f-2882-437e-bb3f-67c93a236c4d",
     prompt: "Ethereal underwater scene with bioluminescent jellyfish, coral cathedral, divine light rays, fantasy ocean kingdom",
     model: "DreamCanvas XL v3.2",
     likes: 3245, views: 24900, comments: 156,
@@ -457,7 +453,6 @@ export const GALLERY_IMAGES: GalleryImage[] = [
     url: "https://images.unsplash.com/photo-1557672172-298e090bd0f1?w=600&h=600&fit=crop&q=80",
     title: "Quantum Garden",
     creatorId: "6c2f4a49-9e65-48aa-b237-19de59a426bf",
-    merchId: "99c9681e-c3d5-40a1-a293-15ae3568a4e8",
     prompt: "Surreal garden where flowers are made of crystallized light, impossible geometry, M.C. Escher meets nature, vivid colors",
     model: "DreamCanvas XL v3.2",
     likes: 4102, views: 31200, comments: 189,
@@ -479,7 +474,6 @@ export const GALLERY_IMAGES: GalleryImage[] = [
     url: "https://images.unsplash.com/photo-1635322966219-b75ed372eb01?w=600&h=500&fit=crop&q=80",
     title: "Mechanical Heart",
     creatorId: "6bec2491-d51e-4df2-9f52-7a547be260d6",
-    merchId: "985a18bc-01ea-4cc9-a94d-7a143ce4d31e",
     prompt: "Steampunk robot with a glowing heart, intricate brass gears, Victorian laboratory, warm amber lighting, cinematic",
     model: "DreamCanvas v2.8",
     likes: 2890, views: 21500, comments: 134,
@@ -490,7 +484,6 @@ export const GALLERY_IMAGES: GalleryImage[] = [
     url: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&h=750&fit=crop&q=80",
     title: "Moonlit Guardian",
     creatorId: "542b4ceb-13d9-4bd6-9600-fab2f58af018",
-    merchId: "d96a9dbe-f8b4-4d56-b251-aecc35db7147",
     prompt: "Wolf howling at a luminous full moon, northern lights dancing, snow-covered pine forest, photorealistic, mystical energy",
     model: "DreamCanvas XL v3.2",
     likes: 5432, views: 39800, comments: 267,
@@ -512,7 +505,6 @@ export const GALLERY_IMAGES: GalleryImage[] = [
     url: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600&h=450&fit=crop&q=80",
     title: "Aurora Cascade",
     creatorId: "438969c3-f9db-4795-ba8d-9825e6fa9309",
-    merchId: "a4dc3d2e-1136-47ad-919b-0998c10c2925",
     prompt: "Spectacular aurora borealis over Icelandic landscape, waterfall in foreground, long exposure, night photography masterpiece",
     model: "DreamCanvas v2.8",
     likes: 9234, views: 72100, comments: 601,
