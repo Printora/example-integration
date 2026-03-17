@@ -219,13 +219,13 @@ export const MERCH_CATALOG: Record<string, MerchInfo> = {
   "d96a9dbe-f8b4-4d56-b251-aecc35db7147": {
     id: "d96a9dbe-f8b4-4d56-b251-aecc35db7147",
     title: "Spirit of the Wild Hoodie",
-    description: "Majestic spirit animal on a zip hoodie",
+    description: "Majestic spirit animal on a classic hoodie",
     imageUrl: "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=600&h=750&fit=crop&q=80",
-    productName: "All-over Print Zip Hoodie (Lightweight)",
+    productName: "Classic Unisex Hoodie Gildan 18500",
     category: "hoodies",
     variants: [
-      { id: "ff51f909-cf0b-45f8-9678-cec1dfa60d39", color: "Standard", colorCode: null, size: "S", price: 47.99 },
-      { id: "7738e44a-f5de-47fb-a999-703a2a2013bd", color: "Standard", colorCode: null, size: "M", price: 47.99 },
+      { id: "9f8423aa-bcd2-469a-b8bf-5892c761341e", color: "Antique Cherry Red", colorCode: "#CD5C5C", size: "M", price: 30.49 },
+      { id: "8319cd8c-8488-41f0-a926-843ce21a8001", color: "Orange", colorCode: "#FFA500", size: "XL", price: 30.49 },
     ],
   },
   "df8b1044-458b-41c9-8c39-2f23049ba67b": {
@@ -255,12 +255,13 @@ export const MERCH_CATALOG: Record<string, MerchInfo> = {
   "cb4c0a7f-2882-437e-bb3f-67c93a236c4d": {
     id: "cb4c0a7f-2882-437e-bb3f-67c93a236c4d",
     title: "Deep Blue Dreams Mug",
-    description: "Bioluminescent jellyfish on a color changing mug",
+    description: "Bioluminescent jellyfish on an accent mug",
     imageUrl: "https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=600&h=700&fit=crop&q=80",
-    productName: "Color Changing Mug (11oz)",
+    productName: "Accent Mug (11oz)",
     category: "mugs",
     variants: [
-      { id: "e8c71a9c-b5e8-41a3-b4f5-3580b9feb21a", color: "Standard", colorCode: null, size: "Default", price: 15.49 },
+      { id: "86649ceb-8ed4-4c56-b084-a212ffec23e1", color: "Pink", colorCode: "#FFC0CB", size: "One Size", price: 11.99 },
+      { id: "9b5ef2de-8a36-4c0d-9508-1f22c2d4bc9e", color: "Blue", colorCode: "#0000FF", size: "One Size", price: 11.99 },
     ],
   },
   "99c9681e-c3d5-40a1-a293-15ae3568a4e8": {
@@ -314,13 +315,13 @@ export const MERCH_CATALOG: Record<string, MerchInfo> = {
   "ef68cd43-5ea4-4e53-90b9-275ecc9bcdc3": {
     id: "ef68cd43-5ea4-4e53-90b9-275ecc9bcdc3",
     title: "Dragon Awakening Hoodie",
-    description: "Epic dragon emerging from volcano on a zip hoodie",
+    description: "Epic dragon emerging from volcano on a classic hoodie",
     imageUrl: "https://images.unsplash.com/photo-1534312527009-56c7016453e6?w=600&h=900&fit=crop&q=80",
-    productName: "All-over Print Zip Hoodie (Lightweight)",
+    productName: "Classic Unisex Hoodie Gildan 18500",
     category: "hoodies",
     variants: [
-      { id: "ff51f909-cf0b-45f8-9678-cec1dfa60d39", color: "Standard", colorCode: null, size: "S", price: 47.99 },
-      { id: "7738e44a-f5de-47fb-a999-703a2a2013bd", color: "Standard", colorCode: null, size: "M", price: 47.99 },
+      { id: "9f8423aa-bcd2-469a-b8bf-5892c761341e", color: "Antique Cherry Red", colorCode: "#CD5C5C", size: "M", price: 30.49 },
+      { id: "7aa7d689-eb13-49c7-b828-9cd39c2e4258", color: "White", colorCode: "#FFFFFF", size: "L", price: 30.49 },
     ],
   },
   "2f23ef76-2add-42df-ac5c-4658167f4aa1": {
