@@ -990,10 +990,35 @@ function PrintModal({
 
 export default function DreamCanvasPage() {
   const [activeCategory, setActiveCategory] = useState("all");
-  const [selectedImage, setSelectedImage] = useState<GalleryImage | null>(
-    null
-  );
+  const [selectedImage, setSelectedImage] = useState<GalleryImage | null>(null);
   const [printImage, setPrintImage] = useState<GalleryImage | null>(null);
+  const [directPrinting, setDirectPrinting] = useState(false);
+
+  // Flow A (no merch): skip modal — call session API immediately and redirect
+  async function handleDirectPrint(image: GalleryImage) {
+    if (image.merchId) {
+      // Flow C: show modal for variant selection
+      setPrintImage(image);
+      return;
+    }
+    setDirectPrinting(true);
+    try {
+      const res = await fetch("/api/printora/session", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ imageUrl: image.url, userData: DEMO_USER }),
+      });
+      const data = await res.json();
+      if (data.editorUrl) {
+        window.location.href = data.editorUrl;
+      }
+    } catch {
+      // Fallback: show modal
+      setPrintImage(image);
+    } finally {
+      setDirectPrinting(false);
+    }
+  }
 
   const filteredImages =
     activeCategory === "all" || activeCategory === "trending"
@@ -1031,18 +1056,26 @@ export default function DreamCanvasPage() {
         </div>
       </main>
 
+      {/* Direct print loading overlay */}
+      {directPrinting && (
+        <div className="fixed inset-0 z-[300] flex items-center justify-center bg-black/80 backdrop-blur-sm">
+          <div className="flex flex-col items-center gap-3">
+            <Loader2 className="h-8 w-8 animate-spin text-violet-400" />
+            <p className="text-sm text-zinc-400">Opening Printora editor…</p>
+          </div>
+        </div>
+      )}
+
       {/* Image Detail Modal */}
       {selectedImage && (
         <ImageModal
           image={selectedImage}
           onClose={() => setSelectedImage(null)}
-          onPrint={() => {
-            setPrintImage(selectedImage);
-          }}
+          onPrint={() => handleDirectPrint(selectedImage)}
         />
       )}
 
-      {/* Print Modal */}
+      {/* Print Modal — only used for Flow C (merch with variant selection) */}
       {printImage && (
         <PrintModal
           image={printImage}
