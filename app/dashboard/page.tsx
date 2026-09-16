@@ -32,18 +32,14 @@ export default function DashboardPage() {
     setIsLoading(false);
   }
 
-  // Initial fetch
-  React.useEffect(() => {
-    fetchEvents();
-  }, []);
-
-  // Poll every 5 seconds
+  // Poll every 5 seconds, with an immediate first run on mount
   // Note: useInterval reads current state values, avoiding closure traps
   useInterval(
     () => {
       fetchEvents();
     },
-    5000
+    5000,
+    { immediate: true }
   );
 
   return (
